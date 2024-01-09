@@ -8,7 +8,10 @@ import {
 
 type RootStackParamList = {
   Home: undefined;
-  Details: undefined;
+  Details: {
+    itemId: number;
+    description: string;
+  };
 };
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Home">;
@@ -24,17 +27,28 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       </Text>
       <Button
         title="Go to Details"
-        onPress={() => navigation.navigate("Details")}
+        onPress={() =>
+          navigation.navigate("Details", {
+            itemId: 86,
+            description: "some text",
+          })
+        }
       />
       <StatusBar style="auto" />
     </View>
   );
 };
 
-const DetailsScreen = ({ navigation }: DetailsScreenProps) => {
+const DetailsScreen = ({ route, navigation }: DetailsScreenProps) => {
+  const { itemId, description } = route.params;
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>Details Screen</Text>
+      <Text>itemId : {JSON.stringify(itemId)}</Text>
+      <Text>description : {JSON.stringify(description)}</Text>
+      <Text>Details Screen</Text>
+
       <Button title="Go to Home" onPress={() => navigation.navigate("Home")} />
     </View>
   );
