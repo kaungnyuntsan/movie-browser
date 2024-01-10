@@ -19,12 +19,36 @@ type DetailsScreenProps = NativeStackScreenProps<RootStackParamList, "Details">;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+// type GreetProps = {
+//   name: string;
+// };
+
+interface GreetProps {
+  name: string;
+  age: number;
+  haveMoney: boolean;
+}
+
+const Greet = ({ name, age, haveMoney }: GreetProps) => {
+  return (
+    <View>
+      <Text style={{ fontSize: 20 }}> Hello {name}!</Text>
+      <Text style={{ fontSize: 20 }}> Age {age + 1}</Text>
+      <Text style={{ fontSize: 20 }}>
+        {" "}
+        {haveMoney ? "I've money!" : "I'm broke!"}
+      </Text>
+    </View>
+  );
+};
+
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text style={{ fontSize: 20 }}>
         Open up App.tsx to start working on your app!!!
       </Text>
+      <Greet name="jim" age={3} haveMoney={true} />
       <Button
         title="Go to Details"
         onPress={() =>
