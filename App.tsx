@@ -31,6 +31,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     content = <Text style={styles.textFont}> "fetching..."</Text>;
   } else if (isSuccess) {
     console.log(data);
+
     content = data.Search.map((movie) => {
       return (
         <Text style={styles.textFont} key={movie.imdbID}>

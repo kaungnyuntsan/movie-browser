@@ -12,6 +12,7 @@ type Movies = {
   }[];
   totalResults: string;
   Response: string;
+  Error?: string;
 };
 
 export const apiSlice = createApi({
