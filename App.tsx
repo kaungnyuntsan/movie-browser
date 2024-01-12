@@ -24,28 +24,32 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const { data, isFetching, isSuccess, isError, error } =
-    useFindMoviesQuery("superman");
+    useFindMoviesQuery("iron");
 
   let content;
   if (isFetching) {
     content = <Text style={styles.textFont}> "fetching..."</Text>;
   } else if (isSuccess) {
     console.log(data);
+    const isFound = data.Response === "True";
 
-    content = data.Search.map((movie) => {
-      return (
-        <Text style={styles.textFont} key={movie.imdbID}>
-          {movie.Title}
-        </Text>
-      );
-    });
+    content = isFound ? (
+      data.Search.map((movie) => {
+        return (
+          <Text style={styles.textFont} key={movie.imdbID}>
+            {movie.Title}
+          </Text>
+        );
+      })
+    ) : (
+      <Text style={styles.textFont}>{data.Error}</Text>
+    );
   } else if (isError) {
     content = <Text style={styles.textFont}>{error.toString()}</Text>;
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView>{content}</ScrollView>
       <Button
         title="Go to Details"
         onPress={() =>
@@ -55,6 +59,8 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
           })
         }
       />
+      <ScrollView>{content}</ScrollView>
+
       <StatusBar style="auto" />
     </View>
   );
