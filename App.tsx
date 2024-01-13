@@ -9,7 +9,7 @@ import {
 import { useFindMoviesQuery } from "./apiSlice";
 import { Provider } from "react-redux";
 import store from "./store";
-import { Searchbar } from 'react-native-paper';
+import { Searchbar } from "react-native-paper";
 
 type RootStackParamList = {
   Home: undefined;
@@ -25,39 +25,38 @@ type DetailsScreenProps = NativeStackScreenProps<RootStackParamList, "Details">;
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const { data, isFetching, isSuccess, isError, error } =
+  const [searchQuery, setSearchQuery] = useState("");
+  const { data, isLoading, isFetching, isSuccess, isError, error } =
     useFindMoviesQuery(searchQuery);
 
   let content;
-  if (isFetching) {
-    content = <Text style={styles.textFont}> "fetching..."</Text>;
+  if (isLoading) {
+  } else if (isFetching) {
+    content = <Text style={styles.textFont}> "Loading..."</Text>;
   } else if (isSuccess) {
     // console.log(data);
     const isFound = data.Response === "True";
 
-    content = isFound ? (
-      data.Search.map((movie) => {
-        return (
-          <Text style={styles.textFont} key={movie.imdbID}>
-            {movie.Title}
-          </Text>
-        );
-      })
-    ) : (
-      <Text style={styles.textFont}>{data.Error}</Text>
-    );
+    content = isFound
+      ? data.Search.map((movie) => {
+          return (
+            <Text style={styles.textFont} key={movie.imdbID}>
+              {movie.Title}
+            </Text>
+          );
+        })
+      : searchQuery !== "" && <Text style={styles.textFont}>{data.Error}</Text>;
   } else if (isError) {
     content = <Text style={styles.textFont}>{error.toString()}</Text>;
   }
 
   return (
     <View style={{}}>
-     <Searchbar
-      placeholder="Search"
-      onChangeText={setSearchQuery}
-      value={searchQuery}
-    />
+      <Searchbar
+        placeholder="Search"
+        onChangeText={setSearchQuery}
+        value={searchQuery}
+      />
       <Button title="searchQuery" onPress={() => console.log(searchQuery)} />
       <Button
         title="Go to Details"
