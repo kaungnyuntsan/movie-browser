@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -8,6 +9,7 @@ import {
 import { useFindMoviesQuery } from "./apiSlice";
 import { Provider } from "react-redux";
 import store from "./store";
+import { Searchbar } from 'react-native-paper';
 
 type RootStackParamList = {
   Home: undefined;
@@ -23,14 +25,15 @@ type DetailsScreenProps = NativeStackScreenProps<RootStackParamList, "Details">;
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
+  const [searchQuery, setSearchQuery] = useState('');
   const { data, isFetching, isSuccess, isError, error } =
-    useFindMoviesQuery("iron");
+    useFindMoviesQuery(searchQuery);
 
   let content;
   if (isFetching) {
     content = <Text style={styles.textFont}> "fetching..."</Text>;
   } else if (isSuccess) {
-    console.log(data);
+    // console.log(data);
     const isFound = data.Response === "True";
 
     content = isFound ? (
@@ -49,7 +52,13 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{}}>
+     <Searchbar
+      placeholder="Search"
+      onChangeText={setSearchQuery}
+      value={searchQuery}
+    />
+      <Button title="searchQuery" onPress={() => console.log(searchQuery)} />
       <Button
         title="Go to Details"
         onPress={() =>
