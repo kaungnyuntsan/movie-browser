@@ -1,4 +1,4 @@
-import { Text, View, Button, ScrollView } from "react-native";
+import { Text, View, Button, ScrollView, Image } from "react-native";
 import { styles } from "../styles";
 import { HomeScreenProps } from "../types";
 import { useState } from "react";
@@ -22,9 +22,27 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
     content = isFound
       ? data.Search.map((movie) => {
           return (
-            <Text style={styles.textFont} key={movie.imdbID}>
-              {movie.Title}
-            </Text>
+            <View
+              key={movie.imdbID}
+              style={{
+                margin: 10,
+
+                // flex: 1,
+              }}
+            >
+              <Image
+                style={{
+                  width: 160,
+                  height: 200,
+                  resizeMode: "stretch",
+                }}
+                source={{
+                  uri: movie.Poster,
+                }}
+              />
+              {/* <Text style={{ fontSize: 20 }}>{movie.Title}</Text> */}
+              {/*<Text style={{ fontSize: 20 }}>{movie.imdbID}</Text> */}
+            </View>
           );
         })
       : searchQuery !== "" && <Text style={styles.textFont}>{data.Error}</Text>;
@@ -39,7 +57,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
         onChangeText={setSearchQuery}
         value={searchQuery}
       />
-      <Button title="searchQuery" onPress={() => console.log(searchQuery)} />
+      {/* <Button title="searchQuery" onPress={() => console.log(searchQuery)} />
       <Button
         title="Go to Details"
         onPress={() =>
@@ -48,8 +66,21 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
             description: "some text",
           })
         }
-      />
-      <ScrollView>{content}</ScrollView>
+      /> */}
+      {/* <ScrollView style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}> */}
+      <ScrollView
+        style={
+          {
+            // flex: 1,
+            // flexDirection: "row",
+            // flexWrap: "wrap",
+          }
+        }
+      >
+        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+          {content}
+        </View>
+      </ScrollView>
 
       <StatusBar style="auto" />
     </View>
