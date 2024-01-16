@@ -1,4 +1,4 @@
-import { Text, View, Button, ScrollView, Image } from "react-native";
+import { Text, View, Button, ScrollView, Image, Pressable } from "react-native";
 import { styles } from "../styles";
 import { HomeScreenProps } from "../types";
 import { useState } from "react";
@@ -26,10 +26,14 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
               key={movie.imdbID}
               style={{
                 margin: 10,
-
+                width : 160,
                 // flex: 1,
               }}
             >
+              <Pressable onPress={() => navigation.navigate("Details", {
+            itemId: 0,
+            description: movie.imdbID,
+          })} >
               <Image
                 style={{
                   width: 160,
@@ -39,8 +43,10 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
                 source={{
                   uri: movie.Poster,
                 }}
+                alt={`image of ${movie.Title}`}
               />
-              {/* <Text style={{ fontSize: 20 }}>{movie.Title}</Text> */}
+              <Text style={{ fontSize: 15 }}>{movie.Title}</Text>
+              </Pressable>
               {/*<Text style={{ fontSize: 20 }}>{movie.imdbID}</Text> */}
             </View>
           );
@@ -77,7 +83,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
           }
         }
       >
-        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", justifyContent : "center" }}>
           {content}
         </View>
       </ScrollView>
