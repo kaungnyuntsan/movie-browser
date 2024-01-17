@@ -26,26 +26,30 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
               key={movie.imdbID}
               style={{
                 margin: 10,
-                width : 160,
+                width: 160,
                 // flex: 1,
               }}
             >
-              <Pressable onPress={() => navigation.navigate("Details", {
-            itemId: 0,
-            description: movie.imdbID,
-          })} >
-              <Image
-                style={{
-                  width: 160,
-                  height: 200,
-                  resizeMode: "stretch",
-                }}
-                source={{
-                  uri: movie.Poster,
-                }}
-                alt={`image of ${movie.Title}`}
-              />
-              <Text style={{ fontSize: 15 }}>{movie.Title}</Text>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("Details", {
+                    imdbID: movie.imdbID,
+                    title: movie.Title,
+                  })
+                }
+              >
+                <Image
+                  style={{
+                    width: 160,
+                    height: 200,
+                    resizeMode: "stretch",
+                  }}
+                  source={{
+                    uri: movie.Poster,
+                  }}
+                  alt={`image of ${movie.Title}`}
+                />
+                <Text style={{ fontSize: 15 }}>{movie.Title}</Text>
               </Pressable>
               {/*<Text style={{ fontSize: 20 }}>{movie.imdbID}</Text> */}
             </View>
@@ -83,7 +87,14 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
           }
         }
       >
-        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", justifyContent : "center" }}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
           {content}
         </View>
       </ScrollView>

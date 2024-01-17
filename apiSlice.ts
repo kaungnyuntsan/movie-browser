@@ -24,7 +24,10 @@ export const apiSlice = createApi({
     findMovies: builder.query<Movies, string>({
       query: (movieName) => `?apikey=${APIKEY}&s=${movieName}`,
     }),
+    movieDetails: builder.query({
+      query: (imdbID) => `?apikey=${APIKEY}&i=${imdbID}`,
+    }),
   }),
 });
 
-export const { useFindMoviesQuery } = apiSlice;
+export const { useFindMoviesQuery, useMovieDetailsQuery } = apiSlice;
