@@ -21,8 +21,9 @@ export const apiSlice = createApi({
     baseUrl: "https://omdbapi.com/",
   }),
   endpoints: (builder) => ({
-    findMovies: builder.query<Movies, string>({
-      query: (movieName) => `?apikey=${APIKEY}&s=${movieName}`,
+    findMovies: builder.query<Movies, { movieName: string; page: number }>({
+      query: ({ movieName, page }) =>
+        `?apikey=${APIKEY}&s=${movieName}&page=${page}`,
     }),
     movieDetails: builder.query({
       query: (imdbID) => `?apikey=${APIKEY}&i=${imdbID}`,
