@@ -92,10 +92,17 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
           {content}
         </View>
       </ScrollView>
-      <View style={{ marginBottom: 20 }}>
+      <View
+        style={{
+          margin: 10,
+          flexDirection: "row-reverse",
+          justifyContent: "space-between",
+        }}
+      >
         {searchQuery && isSuccess && +data.totalResults > 10 && (
           <Button title="next" onPress={() => setMoviePage(moviePage + 1)} />
         )}
+
         {moviePage > 1 && (
           <Button
             title="previous"
