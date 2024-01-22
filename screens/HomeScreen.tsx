@@ -19,7 +19,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
   } else if (isSuccess) {
     // console.log(data.totalResults);
     const isFound = data.Response === "True";
-
+   
     content = isFound
       ? data.Search.map((movie) => {
           return (
@@ -72,7 +72,29 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
         value={searchQuery}
         onClearIconPress={() => setMoviePage(1)}
       />
-      {/* <Button title="consoleMoviePage" onPress={() => console.log(moviePage)} /> */}
+       <View
+        style={{
+          paddingLeft : 5,
+          paddingRight : 5,
+          flexDirection: "row-reverse",
+          justifyContent: "space-between",
+        }}
+      >
+        {searchQuery && isSuccess &&   +data.totalResults > 10 &&(
+          <>
+          <Button title="next" onPress={() => setMoviePage(moviePage + 1)} 
+          disabled={(+data.totalResults) - (moviePage * 10) < 0 }
+          />
+      
+          <Button
+            title="previous"
+            onPress={() => setMoviePage(moviePage - 1)}
+            disabled={moviePage <= 1}
+          />
+          </>
+        )}
+      </View>
+      {/* <Button title="totalMoviePage" onPress={() => console.log(totalMoviePages)} /> */}
       <ScrollView
         style={
           {
@@ -82,6 +104,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
           }
         }
       >
+        
         <View
           style={{
             flex: 1,
@@ -91,25 +114,12 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
         >
           {content}
         </View>
-      </ScrollView>
-      <View
-        style={{
-          margin: 10,
-          flexDirection: "row-reverse",
-          justifyContent: "space-between",
-        }}
-      >
-        {searchQuery && isSuccess && +data.totalResults > 10 && (
-          <Button title="next" onPress={() => setMoviePage(moviePage + 1)} />
-        )}
 
-        {moviePage > 1 && (
-          <Button
-            title="previous"
-            onPress={() => setMoviePage(moviePage - 1)}
-          />
-        )}
-      </View>
+
+
+        
+      </ScrollView>
+     
       <StatusBar style="auto" />
     </View>
   );
