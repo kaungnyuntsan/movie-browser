@@ -13,6 +13,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
+          {/* <Stack.Screen name="Movies" component={MoviesScreen} /> */}
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen
             name="Details"

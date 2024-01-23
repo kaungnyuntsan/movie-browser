@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useFindMoviesQuery } from "../apiSlice";
 import { Searchbar } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
+import { randomMovies } from "../movies";
 
 export const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,7 +20,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
   } else if (isSuccess) {
     // console.log(data.totalResults);
     const isFound = data.Response === "True";
-   
+
     content = isFound
       ? data.Search.map((movie) => {
           return (
@@ -72,25 +73,27 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
         value={searchQuery}
         onClearIconPress={() => setMoviePage(1)}
       />
-       <View
+      <View
         style={{
-          paddingLeft : 5,
-          paddingRight : 5,
+          paddingLeft: 5,
+          paddingRight: 5,
           flexDirection: "row-reverse",
           justifyContent: "space-between",
         }}
       >
-        {searchQuery && isSuccess &&   +data.totalResults > 10 &&(
+        {searchQuery && isSuccess && +data.totalResults > 10 && (
           <>
-          <Button title="next" onPress={() => setMoviePage(moviePage + 1)} 
-          disabled={(+data.totalResults) - (moviePage * 10) < 0 }
-          />
-      
-          <Button
-            title="previous"
-            onPress={() => setMoviePage(moviePage - 1)}
-            disabled={moviePage <= 1}
-          />
+            <Button
+              title="next"
+              onPress={() => setMoviePage(moviePage + 1)}
+              disabled={+data.totalResults - moviePage * 10 < 0}
+            />
+
+            <Button
+              title="previous"
+              onPress={() => setMoviePage(moviePage - 1)}
+              disabled={moviePage <= 1}
+            />
           </>
         )}
       </View>
@@ -104,7 +107,6 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
           }
         }
       >
-        
         <View
           style={{
             flex: 1,
@@ -114,12 +116,8 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
         >
           {content}
         </View>
-
-
-
-        
       </ScrollView>
-     
+
       <StatusBar style="auto" />
     </View>
   );
