@@ -1,9 +1,10 @@
-import { View, Text, ScrollView, Image, Pressable } from "react-native";
+import { View, Text, ScrollView, Image, Pressable, Button } from "react-native";
 import { MoviesScreenProps } from "../types";
 import { randomMovies } from "../movies";
 import { useFindMoviesQuery } from "../apiSlice";
 import { styles } from "../styles";
 import { Input, InputField } from "@gluestack-ui/themed";
+import { Searchbar } from "react-native-paper";
 
 export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
   const [movie1, movie2, movie3] = randomMovies();
@@ -196,17 +197,19 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Input
-        variant="rounded"
-        size="sm"
-        isReadOnly={true}
-        style={{ margin: 5 }}
-      >
-        <InputField
-          placeholder="Search Movies"
-          onPressIn={() => navigation.navigate("Home")}
-        />
-      </Input>
+      <Pressable onPress={() => navigation.navigate("Home")}>
+        <Input
+          variant="rounded"
+          size="sm"
+          isReadOnly={true}
+          style={{ margin: 5 }}
+        >
+          <InputField
+            placeholder="Search Movies"
+            onPressIn={() => navigation.navigate("Home")}
+          />
+        </Input>
+      </Pressable>
 
       <ScrollView style={{ flex: 1 }}>
         <Text style={styles.textFont}> {contentTitle}</Text>

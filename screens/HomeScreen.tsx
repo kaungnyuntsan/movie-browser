@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useFindMoviesQuery } from "../apiSlice";
 import { Searchbar } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
-import { randomMovies } from "../movies";
 
 export const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -65,13 +64,16 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
   return (
     <View style={{ flex: 1 }}>
       <Searchbar
-        placeholder="Search"
+        placeholder="Search Movies"
         onChangeText={(searchQuery) => {
           setSearchQuery(searchQuery);
           setMoviePage(1);
         }}
         value={searchQuery}
         onClearIconPress={() => setMoviePage(1)}
+        autoCapitalize="none"
+        autoCorrect={false}
+        autoFocus={true}
       />
       <View
         style={{
