@@ -9,6 +9,17 @@ const movies = [
   "Captain America",
   "Mission Impossible",
   "Terminator",
+  "Matrix",
+  "Toy Story",
+  "Die Hard",
+  "Fast and Furious",
+  "Rush Hour",
+  "Jaws",
+  "X-men",
+  "Pirates of the Caribbean",
+  "The Mummy",
+  "Saw",
+  "The Conjuring",
 ];
 
 export const getRandomInt = (max: number, min = 0) => {

@@ -6,9 +6,9 @@ import { styles } from "../styles";
 import { Input, InputField } from "@gluestack-ui/themed";
 import { Searchbar } from "react-native-paper";
 
-export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
-  const [movie1, movie2, movie3] = randomMovies();
+const [movie1, movie2, movie3] = randomMovies();
 
+export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
   const { data, isFetching, isSuccess, isError, error } = useFindMoviesQuery({
     movieName: movie1,
     page: 1,
