@@ -203,6 +203,7 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
           size="sm"
           isReadOnly={true}
           style={{ margin: 5 }}
+          backgroundColor="white"
         >
           <InputField
             placeholder="Search Movies"
