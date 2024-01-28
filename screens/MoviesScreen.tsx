@@ -1,4 +1,12 @@
-import { View, Text, ScrollView, Image, Pressable, Button } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  Pressable,
+  Button,
+  FlatList,
+} from "react-native";
 import { MoviesScreenProps } from "../types";
 import { randomMovies } from "../movies";
 import { useFindMoviesQuery } from "../apiSlice";
@@ -44,43 +52,81 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
     contentTitle = `"${movie1}" movies`;
     const isFound = data.Response === "True";
 
+    const DATA = data.Search;
+
     content = isFound ? (
-      data.Search.map((movie) => {
-        return (
-          <View
-            key={movie.imdbID}
-            style={{
-              margin: 5,
-              padding: 5,
-              width: 160,
-              // flex: 1,
-            }}
-          >
-            <Pressable
-              onPress={() =>
-                navigation.navigate("Details", {
-                  imdbID: movie.imdbID,
-                  title: movie.Title,
-                })
-              }
+      // data.Search.map((movie) => {
+      //   return (
+      //     <View
+      //       key={movie.imdbID}
+      //       style={{
+      //         margin: 5,
+      //         padding: 5,
+      //         width: 160,
+      //       }}
+      //     >
+      //       <Pressable
+      //         onPress={() =>
+      //           navigation.navigate("Details", {
+      //             imdbID: movie.imdbID,
+      //             title: movie.Title,
+      //           })
+      //         }
+      //       >
+      //         <Image
+      //           style={{
+      //             width: 160,
+      //             height: 200,
+      //             resizeMode: "stretch",
+      //           }}
+      //           source={{
+      //             uri: movie.Poster,
+      //           }}
+      //           alt={`image of ${movie.Title}`}
+      //         />
+      //         <Text style={{ fontSize: 15 }}>{movie.Title}</Text>
+      //       </Pressable>
+      //     </View>
+      //   );
+      // })
+      <FlatList
+        horizontal
+        data={DATA}
+        renderItem={({ item }) => {
+          return (
+            <View
+              key={item.imdbID}
+              style={{
+                margin: 5,
+                padding: 5,
+                width: 160,
+              }}
             >
-              <Image
-                style={{
-                  width: 160,
-                  height: 200,
-                  resizeMode: "stretch",
-                }}
-                source={{
-                  uri: movie.Poster,
-                }}
-                alt={`image of ${movie.Title}`}
-              />
-              <Text style={{ fontSize: 15 }}>{movie.Title}</Text>
-            </Pressable>
-            {/*<Text style={{ fontSize: 20 }}>{movie.imdbID}</Text> */}
-          </View>
-        );
-      })
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("Details", {
+                    imdbID: item.imdbID,
+                    title: item.Title,
+                  })
+                }
+              >
+                <Image
+                  style={{
+                    width: 160,
+                    height: 200,
+                    resizeMode: "stretch",
+                  }}
+                  source={{
+                    uri: item.Poster,
+                  }}
+                  alt={`image of ${item.Title}`}
+                />
+                <Text style={{ fontSize: 15 }}>{item.Title}</Text>
+              </Pressable>
+            </View>
+          );
+        }}
+      />
     ) : (
       <Text style={styles.textFont}>{data.Error}</Text>
     );
@@ -195,6 +241,15 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
     content3 = <Text style={styles.textFont}>{error3.toString()}</Text>;
   }
 
+  // const DATA = [{
+  //   movie1: () => {
+  //     return (
+  //       <Text style={styles.textFont}> {contentTitle} </Text>
+
+  //     )
+  //   }
+  // }]
+
   return (
     <View style={{ flex: 1 }}>
       <Pressable onPress={() => navigation.navigate("Home")}>
@@ -214,12 +269,12 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
 
       <ScrollView style={{ flex: 1 }}>
         <Text style={styles.textFont}> {contentTitle}</Text>
-        <ScrollView horizontal>{content}</ScrollView>
+        {content}
 
-        <Text style={styles.textFont}>{contentTitle2}</Text>
+        {/* <Text style={styles.textFont}>{contentTitle2}</Text>
         <ScrollView horizontal>{content2}</ScrollView>
         <Text style={styles.textFont}> {contentTitle3}</Text>
-        <ScrollView horizontal>{content3}</ScrollView>
+        <ScrollView horizontal>{content3}</ScrollView> */}
       </ScrollView>
     </View>
   );
