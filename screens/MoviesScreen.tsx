@@ -16,6 +16,14 @@ import { Searchbar } from "react-native-paper";
 
 const [movie1, movie2, movie3] = randomMovies();
 
+type movieType = {
+  Title: string;
+  Year: string;
+  imdbID: string;
+  Type: string;
+  Poster: string;
+};
+
 export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
   const { data, isFetching, isSuccess, isError, error } = useFindMoviesQuery({
     movieName: movie1,
@@ -44,6 +52,43 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
     page: 1,
   });
 
+  const Movie = ({ item }: { item: movieType }) => {
+    return (
+      <View
+        key={item.imdbID}
+        style={{
+          margin: 5,
+          padding: 5,
+          width: 160,
+        }}
+      >
+        <Pressable
+          onPress={() =>
+            navigation.navigate("Details", {
+              imdbID: item.imdbID,
+              title: item.Title,
+            })
+          }
+        >
+          <Image
+            style={{
+              width: 160,
+              height: 200,
+              resizeMode: "stretch",
+            }}
+            source={{
+              uri: item.Poster,
+            }}
+            alt={`image of ${item.Title}`}
+          />
+          <Text style={{ fontSize: 15 }}>{item.Title}</Text>
+        </Pressable>
+      </View>
+    );
+  };
+
+  const renderItem = ({ item }: { item: movieType }) => <Movie item={item} />;
+
   let content;
   let contentTitle;
   if (isFetching) {
@@ -55,78 +100,7 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
     const DATA = data.Search;
 
     content = isFound ? (
-      // data.Search.map((movie) => {
-      //   return (
-      //     <View
-      //       key={movie.imdbID}
-      //       style={{
-      //         margin: 5,
-      //         padding: 5,
-      //         width: 160,
-      //       }}
-      //     >
-      //       <Pressable
-      //         onPress={() =>
-      //           navigation.navigate("Details", {
-      //             imdbID: movie.imdbID,
-      //             title: movie.Title,
-      //           })
-      //         }
-      //       >
-      //         <Image
-      //           style={{
-      //             width: 160,
-      //             height: 200,
-      //             resizeMode: "stretch",
-      //           }}
-      //           source={{
-      //             uri: movie.Poster,
-      //           }}
-      //           alt={`image of ${movie.Title}`}
-      //         />
-      //         <Text style={{ fontSize: 15 }}>{movie.Title}</Text>
-      //       </Pressable>
-      //     </View>
-      //   );
-      // })
-      <FlatList
-        horizontal
-        data={DATA}
-        renderItem={({ item }) => {
-          return (
-            <View
-              key={item.imdbID}
-              style={{
-                margin: 5,
-                padding: 5,
-                width: 160,
-              }}
-            >
-              <Pressable
-                onPress={() =>
-                  navigation.navigate("Details", {
-                    imdbID: item.imdbID,
-                    title: item.Title,
-                  })
-                }
-              >
-                <Image
-                  style={{
-                    width: 160,
-                    height: 200,
-                    resizeMode: "stretch",
-                  }}
-                  source={{
-                    uri: item.Poster,
-                  }}
-                  alt={`image of ${item.Title}`}
-                />
-                <Text style={{ fontSize: 15 }}>{item.Title}</Text>
-              </Pressable>
-            </View>
-          );
-        }}
-      />
+      <FlatList horizontal data={DATA} renderItem={renderItem} />
     ) : (
       <Text style={styles.textFont}>{data.Error}</Text>
     );
@@ -143,43 +117,10 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
 
     const isFound = data2.Response === "True";
 
+    const DATA2 = data2.Search;
+
     content2 = isFound ? (
-      data2.Search.map((movie) => {
-        return (
-          <View
-            key={movie.imdbID}
-            style={{
-              margin: 5,
-              padding: 5,
-              width: 160,
-              // flex: 1,
-            }}
-          >
-            <Pressable
-              onPress={() =>
-                navigation.navigate("Details", {
-                  imdbID: movie.imdbID,
-                  title: movie.Title,
-                })
-              }
-            >
-              <Image
-                style={{
-                  width: 160,
-                  height: 200,
-                  resizeMode: "stretch",
-                }}
-                source={{
-                  uri: movie.Poster,
-                }}
-                alt={`image of ${movie.Title}`}
-              />
-              <Text style={{ fontSize: 15 }}>{movie.Title}</Text>
-            </Pressable>
-            {/*<Text style={{ fontSize: 20 }}>{movie.imdbID}</Text> */}
-          </View>
-        );
-      })
+      <FlatList horizontal data={DATA2} renderItem={renderItem} />
     ) : (
       <Text style={styles.textFont}>{data2.Error}</Text>
     );
@@ -197,43 +138,10 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
 
     const isFound = data3.Response === "True";
 
+    const DATA3 = data3.Search;
+
     content3 = isFound ? (
-      data3.Search.map((movie) => {
-        return (
-          <View
-            key={movie.imdbID}
-            style={{
-              margin: 5,
-              padding: 5,
-              width: 160,
-              // flex: 1,
-            }}
-          >
-            <Pressable
-              onPress={() =>
-                navigation.navigate("Details", {
-                  imdbID: movie.imdbID,
-                  title: movie.Title,
-                })
-              }
-            >
-              <Image
-                style={{
-                  width: 160,
-                  height: 200,
-                  resizeMode: "stretch",
-                }}
-                source={{
-                  uri: movie.Poster,
-                }}
-                alt={`image of ${movie.Title}`}
-              />
-              <Text style={{ fontSize: 15 }}>{movie.Title}</Text>
-            </Pressable>
-            {/*<Text style={{ fontSize: 20 }}>{movie.imdbID}</Text> */}
-          </View>
-        );
-      })
+      <FlatList horizontal data={DATA3} renderItem={renderItem} />
     ) : (
       <Text style={styles.textFont}>{data3.Error}</Text>
     );
@@ -271,10 +179,10 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
         <Text style={styles.textFont}> {contentTitle}</Text>
         {content}
 
-        {/* <Text style={styles.textFont}>{contentTitle2}</Text>
-        <ScrollView horizontal>{content2}</ScrollView>
+        <Text style={styles.textFont}>{contentTitle2}</Text>
+        {content2}
         <Text style={styles.textFont}> {contentTitle3}</Text>
-        <ScrollView horizontal>{content3}</ScrollView> */}
+        {content3}
       </ScrollView>
     </View>
   );
