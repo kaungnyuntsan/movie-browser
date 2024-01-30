@@ -13,16 +13,10 @@ import { useFindMoviesQuery } from "../apiSlice";
 import { styles } from "../styles";
 import { Input, InputField } from "@gluestack-ui/themed";
 import { Searchbar } from "react-native-paper";
+import { Movie } from "../Movie";
+import { movieType } from "../apiSlice";
 
 const [movie1, movie2, movie3] = randomMovies();
-
-type movieType = {
-  Title: string;
-  Year: string;
-  imdbID: string;
-  Type: string;
-  Poster: string;
-};
 
 export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
   const { data, isFetching, isSuccess, isError, error } = useFindMoviesQuery({
@@ -52,42 +46,20 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
     page: 1,
   });
 
-  const Movie = ({ item }: { item: movieType }) => {
+  const renderItem = ({ item }: { item: movieType }) => {
     return (
-      <View
-        key={item.imdbID}
-        style={{
-          margin: 5,
-          padding: 5,
-          width: 160,
-        }}
+      <Pressable
+        onPress={() =>
+          navigation.navigate("Details", {
+            imdbID: item.imdbID,
+            title: item.Title,
+          })
+        }
       >
-        <Pressable
-          onPress={() =>
-            navigation.navigate("Details", {
-              imdbID: item.imdbID,
-              title: item.Title,
-            })
-          }
-        >
-          <Image
-            style={{
-              width: 160,
-              height: 200,
-              resizeMode: "stretch",
-            }}
-            source={{
-              uri: item.Poster,
-            }}
-            alt={`image of ${item.Title}`}
-          />
-          <Text style={{ fontSize: 15 }}>{item.Title}</Text>
-        </Pressable>
-      </View>
+        <Movie item={item} />
+      </Pressable>
     );
   };
-
-  const renderItem = ({ item }: { item: movieType }) => <Movie item={item} />;
 
   let content;
   let contentTitle;
@@ -149,18 +121,9 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
     content3 = <Text style={styles.textFont}>{error3.toString()}</Text>;
   }
 
-  // const DATA = [{
-  //   movie1: () => {
-  //     return (
-  //       <Text style={styles.textFont}> {contentTitle} </Text>
-
-  //     )
-  //   }
-  // }]
-
   return (
     <View style={{ flex: 1 }}>
-      <Pressable onPress={() => navigation.navigate("Home")}>
+      <Pressable onPress={() => navigation.navigate("Search")}>
         <Input
           variant="rounded"
           size="sm"
@@ -170,7 +133,7 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
         >
           <InputField
             placeholder="Search Movies"
-            onPressIn={() => navigation.navigate("Home")}
+            onPressIn={() => navigation.navigate("Search")}
           />
         </Input>
       </Pressable>

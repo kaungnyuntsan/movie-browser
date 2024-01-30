@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { RootStackParamList } from "./types";
 import { DetailsScreen } from "./screens/DetailsScreen";
-import { HomeScreen } from "./screens/HomeScreen";
+import { SearchScreen } from "./screens/SearchScreen";
 import { MoviesScreen } from "./screens/MoviesScreen";
 import { GluestackUIProvider, Text, Box } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
@@ -18,7 +18,7 @@ const App = () => {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Movies" component={MoviesScreen} />
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Search" component={SearchScreen} />
             <Stack.Screen
               name="Details"
               component={DetailsScreen}

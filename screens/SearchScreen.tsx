@@ -1,62 +1,48 @@
-import { Text, View, Button, ScrollView, Image, Pressable } from "react-native";
+import { Text, View, Button, FlatList, Image, Pressable } from "react-native";
 import { styles } from "../styles";
-import { HomeScreenProps } from "../types";
+import { SearchScreenProps } from "../types";
 import { useState } from "react";
 import { useFindMoviesQuery } from "../apiSlice";
 import { Searchbar } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
+import { Movie } from "../Movie";
+import type { movieType } from "../apiSlice";
 
-export const HomeScreen = ({ navigation }: HomeScreenProps) => {
+export const SearchScreen = ({ navigation }: SearchScreenProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [moviePage, setMoviePage] = useState(1);
   const { data, isLoading, isFetching, isSuccess, isError, error } =
     useFindMoviesQuery({ movieName: searchQuery, page: moviePage });
+
+  const renderItem = ({ item }: { item: movieType }) => {
+    return (
+      <Pressable
+        onPress={() =>
+          navigation.navigate("Details", {
+            imdbID: item.imdbID,
+            title: item.Title,
+          })
+        }
+      >
+        <Movie item={item} />
+      </Pressable>
+    );
+  };
 
   let content;
   if (isLoading) {
   } else if (isFetching) {
     content = <Text style={styles.textFont}> "Loading..."</Text>;
   } else if (isSuccess) {
-    // console.log(data.totalResults);
     const isFound = data.Response === "True";
 
-    content = isFound
-      ? data.Search.map((movie) => {
-          return (
-            <View
-              key={movie.imdbID}
-              style={{
-                margin: 10,
-                width: 160,
-                // flex: 1,
-              }}
-            >
-              <Pressable
-                onPress={() =>
-                  navigation.navigate("Details", {
-                    imdbID: movie.imdbID,
-                    title: movie.Title,
-                  })
-                }
-              >
-                <Image
-                  style={{
-                    width: 160,
-                    height: 200,
-                    resizeMode: "stretch",
-                  }}
-                  source={{
-                    uri: movie.Poster,
-                  }}
-                  alt={`image of ${movie.Title}`}
-                />
-                <Text style={{ fontSize: 15 }}>{movie.Title}</Text>
-              </Pressable>
-              {/*<Text style={{ fontSize: 20 }}>{movie.imdbID}</Text> */}
-            </View>
-          );
-        })
-      : searchQuery !== "" && <Text style={styles.textFont}>{data.Error}</Text>;
+    const DATA = data.Search;
+
+    content = isFound ? (
+      <FlatList data={DATA} renderItem={renderItem} numColumns={2} />
+    ) : (
+      searchQuery !== "" && <Text style={styles.textFont}>{data.Error}</Text>
+    );
   } else if (isError) {
     content = <Text style={styles.textFont}>{error.toString()}</Text>;
   }
@@ -99,26 +85,14 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
           </>
         )}
       </View>
-      {/* <Button title="totalMoviePage" onPress={() => console.log(totalMoviePages)} /> */}
-      <ScrollView
-        style={
-          {
-            // flex: 1,
-            // flexDirection: "row",
-            // flexWrap: "wrap",
-          }
-        }
+
+      <View
+        style={{
+          flex: 1,
+        }}
       >
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            flexWrap: "wrap",
-          }}
-        >
-          {content}
-        </View>
-      </ScrollView>
+        {content}
+      </View>
 
       <StatusBar style="auto" />
     </View>

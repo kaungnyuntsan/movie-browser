@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 export type RootStackParamList = {
   Movies: undefined;
-  Home: undefined;
+  Search: undefined;
   Details: {
     imdbID: string;
     title: string;
@@ -14,9 +14,9 @@ export type MoviesScreenProps = NativeStackScreenProps<
   "Movies"
 >;
 
-export type HomeScreenProps = NativeStackScreenProps<
+export type SearchScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  "Home"
+  "Search"
 >;
 
 export type DetailsScreenProps = NativeStackScreenProps<

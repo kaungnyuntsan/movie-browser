@@ -15,7 +15,7 @@ type Movies = {
   Error?: string;
 };
 
-type Movie = {
+export type Movie = {
   Title: string;
   Year: string;
   Rated: string;
@@ -44,6 +44,14 @@ type Movie = {
   Production: string;
   Website: string;
   Response: string;
+};
+
+export type movieType = {
+  Title: string;
+  Year: string;
+  imdbID: string;
+  Type: string;
+  Poster: string;
 };
 
 export const apiSlice = createApi({
