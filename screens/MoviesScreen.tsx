@@ -15,6 +15,7 @@ import { Input, InputField } from "@gluestack-ui/themed";
 import { Searchbar } from "react-native-paper";
 import { Movie } from "../Movie";
 import { movieType } from "../apiSlice";
+import { StatusBar } from "expo-status-bar";
 
 const [movie1, movie2, movie3] = randomMovies();
 
@@ -147,6 +148,7 @@ export const MoviesScreen = ({ navigation }: MoviesScreenProps) => {
         <Text style={styles.textFont}> {contentTitle3}</Text>
         {content3}
       </ScrollView>
+      <StatusBar style="auto" />
     </View>
   );
 };
